@@ -192,7 +192,17 @@
     animation:pulseglow 4s ease-in-out infinite;
   }
   @keyframes pulseglow{0%,100%{opacity:.75;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
-  .hero-pizza{position:relative;width:100%;height:100%;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 30px 50px rgba(0,0,0,.55));}
+  .hero-pizza{
+    position:relative;
+    width:100%;
+    max-width:430px;
+    height:auto;
+    object-fit:contain;
+    display:block;
+    margin:auto;
+    animation:float 6s ease-in-out infinite;
+    filter:drop-shadow(0 30px 50px rgba(0,0,0,.55));
+}
   @keyframes float{0%,100%{transform:translateY(0px) rotate(0deg);}50%{transform:translateY(-16px) rotate(2deg);}}
   .garnish-chip{
     position:absolute;display:flex;align-items:center;justify-content:center;
@@ -626,45 +636,7 @@
       <div class="hero-visual" data-aos="fade-left" data-aos-duration="700" data-aos-delay="150">
         <div class="hero-visual-inner" id="heroTilt">
           <div class="glow-ring"></div>
-          <svg class="hero-pizza" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="crustGrad" cx="50%" cy="45%" r="60%">
-                <stop offset="0%" stop-color="#ffe8a8"/>
-                <stop offset="65%" stop-color="#f2b84a"/>
-                <stop offset="100%" stop-color="#c97f1f"/>
-              </radialGradient>
-              <radialGradient id="cheeseGrad" cx="50%" cy="42%" r="55%">
-                <stop offset="0%" stop-color="#fff3c4"/>
-                <stop offset="100%" stop-color="#ffcf5c"/>
-              </radialGradient>
-            </defs>
-            <circle cx="200" cy="200" r="190" fill="url(#crustGrad)" stroke="#a8621a" stroke-width="4"/>
-            <circle cx="200" cy="200" r="158" fill="url(#cheeseGrad)"/>
-            <g opacity=".9">
-              <circle cx="150" cy="140" r="20" fill="#c81d11"/>
-              <circle cx="245" cy="130" r="20" fill="#c81d11"/>
-              <circle cx="270" cy="210" r="20" fill="#c81d11"/>
-              <circle cx="200" cy="255" r="20" fill="#c81d11"/>
-              <circle cx="130" cy="225" r="20" fill="#c81d11"/>
-              <circle cx="150" cy="140" r="20" fill="none" stroke="#8f0f08" stroke-width="2" opacity=".5"/>
-              <circle cx="245" cy="130" r="20" fill="none" stroke="#8f0f08" stroke-width="2" opacity=".5"/>
-              <circle cx="270" cy="210" r="20" fill="none" stroke="#8f0f08" stroke-width="2" opacity=".5"/>
-              <circle cx="200" cy="255" r="20" fill="none" stroke="#8f0f08" stroke-width="2" opacity=".5"/>
-              <circle cx="130" cy="225" r="20" fill="none" stroke="#8f0f08" stroke-width="2" opacity=".5"/>
-            </g>
-            <g fill="#3f7d34">
-              <ellipse cx="195" cy="175" rx="10" ry="5" transform="rotate(20 195 175)"/>
-              <ellipse cx="230" cy="185" rx="10" ry="5" transform="rotate(-15 230 185)"/>
-              <ellipse cx="165" cy="215" rx="10" ry="5" transform="rotate(40 165 215)"/>
-              <ellipse cx="215" cy="230" rx="10" ry="5" transform="rotate(-30 215 230)"/>
-            </g>
-            <path d="M60 150 Q90 340 200 380" fill="none" stroke="#fff3c4" stroke-width="10" stroke-linecap="round" opacity=".8"/>
-            <path d="M340 160 Q320 330 230 375" fill="none" stroke="#fff3c4" stroke-width="8" stroke-linecap="round" opacity=".7"/>
-          </svg>
-          <div class="garnish-chip g1"><svg viewBox="0 0 64 64"><use href="#ic-burger"/></svg></div>
-          <div class="garnish-chip g2"><svg viewBox="0 0 64 64"><use href="#ic-drink"/></svg></div>
-          <div class="garnish-chip g3"><svg viewBox="0 0 64 64"><use href="#ic-fries"/></svg></div>
-        </div>
+      <img src="images/pizza.png" class="hero-pizza" alt="Delicious Pizza">
       </div>
     </div>
 
