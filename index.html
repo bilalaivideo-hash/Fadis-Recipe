@@ -1151,11 +1151,10 @@ I'd like to place this order.`
             <div class="deal-foot">
               <span class="deal-price">Rs.${d.price.toLocaleString()}</span>
               <span style="display:flex;gap:8px;align-items:center;">
-<button class="add-btn" onclick='addToCart(
-`${dealLabel}`,
-${d.price},
-`• ${d.items.join("\n• ")}`
-)'>+ Add</button>
+<button class="add-btn"
+onclick="addToCart('${dealLabel.replace(/'/g, '\\\'')}', ${d.price}, '${d.items.join('|').replace(/'/g, '\\\'')}')">
++ Add
+</button>
 <a class="order-link" href="https://wa.me/923330764007?text=${waText}" target="_blank">Order →</a>
               </span>
             </div>`;
