@@ -1129,7 +1129,18 @@
         dg.deals.forEach(d=>{
           const card=document.createElement('div'); card.className='deal-card';
           const li=d.items.map(it=>`<li>${it}</li>`).join('');
-          const waText=encodeURIComponent(`Hi! I'd like to order Deal ${d.n} (${dg.title}) — Rs.${d.price}`);
+const waText = encodeURIComponent(
+`🍕 FADI'S RECIPE
+
+${dg.title} - Deal ${d.n}
+
+Items:
+• ${d.items.join("\n• ")}
+
+Price: Rs.${d.price.toLocaleString()}
+
+I'd like to place this order.`
+);
           const dealLabel=(dg.title+' Deal '+d.n).replace(/'/g,"\\'");
           const dIcon=DEAL_ICON[dg.title]||'ic-tag';
           const dealHot=(dg.title==='Pizza Deals' && d.n===8) ? ' <span class="hot-pill">🔥 Family Favorite</span>' : '';
