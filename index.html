@@ -1140,8 +1140,12 @@
             <div class="deal-foot">
               <span class="deal-price">Rs.${d.price.toLocaleString()}</span>
               <span style="display:flex;gap:8px;align-items:center;">
-                <button class="add-btn" onclick="addToCart('${dealLabel}', ${d.price})">+ Add</button>
-                <a class="order-link" href="https://wa.me/923330764007?text=${waText}" target="_blank">Order →</a>
+<button class="add-btn" onclick='addToCart(
+`${dealLabel}`,
+${d.price},
+`• ${d.items.join("\n• ")}`
+)'>+ Add</button>
+<a class="order-link" href="https://wa.me/923330764007?text=${waText}" target="_blank">Order →</a>
               </span>
             </div>`;
           grid.appendChild(card);
@@ -1229,13 +1233,23 @@
   const cartTotalEl=document.getElementById('cartTotal');
   const cartSendBtn=document.getElementById('cartSendBtn');
 
-  function addToCart(name, price){
-    const existing=cart.find(i=>i.name===name);
-    if(existing){ existing.qty++; } else { cart.push({name, price, qty:1}); }
-    renderCart();
-    openCart();
+function addToCart(name, price, details = ""){
+  const existing = cart.find(i => i.name === name);
+
+  if(existing){
+    existing.qty++;
+  }else{
+    cart.push({
+      name,
+      price,
+      qty:1,
+      details
+    });
   }
 
+  renderCart();
+  openCart();
+}
   function changeQty(name, delta){
     const item=cart.find(i=>i.name===name);
     if(!item) return;
@@ -1268,7 +1282,19 @@
         </div>`).join('');
     }
 
-    const lines=cart.map(i=>`${i.qty}× ${i.name} — Rs.${(i.qty*i.price).toLocaleString()}`).join('%0A');
+const lines = cart.map(i => {
+
+let txt = `${i.qty}× ${i.name}`;
+
+if(i.details){
+    txt += `%0A${encodeURIComponent(i.details).replace(/%0A/g,"%0A")}`;
+}
+
+txt += `%0APrice : Rs.${(i.qty*i.price).toLocaleString()}`;
+
+return txt;
+
+}).join("%0A%0A");
     const msg=`Hi Fadi's Recipe! I'd like to order:%0A${lines}%0A%0ATotal: Rs.${totalPrice.toLocaleString()}`;
     cartSendBtn.href=`https://wa.me/923330764007?text=${msg}`;
   }
