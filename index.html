@@ -8,15 +8,20 @@
 <meta name="keywords" content="Pizza Vehari, Burger Vehari, Shawarma Vehari, Broast Vehari, Fast Food Vehari, Fadi's Recipe, Fadi's Recipe Vehari, Pizza Kahror Pakka, Pizza Mailsi, Fast Food Delivery Vehari">
 <meta name="author" content="Fadi's Recipe">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://fadisrecipe.pk/">
 
 <!-- Open Graph / Social sharing -->
 <meta property="og:type" content="restaurant.menu">
 <meta property="og:title" content="Best Pizza & Burgers in Vehari | Fadi's Recipe Official Menu">
 <meta property="og:description" content="Official menu & deals for Fadi's Recipe — Pizza, Burgers, Shawarma, Broast & more. Vehari, Kahror Pakka & Mailsi. Home delivery available.">
-<!-- og:image needs a real hosted URL (data URIs aren't read by Facebook/WhatsApp crawlers) — once this site is live, set this to e.g. https://yourdomain.com/logo.png -->
-<meta property="og:image" content="https://fadisrecipe.com/logo.png">
+<meta property="og:url" content="https://fadisrecipe.pk/">
+<meta property="og:image" content="https://fadisrecipe.pk/images/logo.png">
+<meta property="og:site_name" content="Fadi's Recipe">
 <meta property="og:locale" content="en_PK">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Best Pizza & Burgers in Vehari | Fadi's Recipe Official Menu">
+<meta name="twitter:description" content="Official menu & deals for Fadi's Recipe — Pizza, Burgers, Shawarma, Broast & more.">
+<meta name="twitter:image" content="https://fadisrecipe.pk/images/logo.png">
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="images/logo.png">
@@ -29,6 +34,9 @@
   "@context": "https://schema.org",
   "@type": "FastFoodRestaurant",
   "name": "Fadi's Recipe",
+  "url": "https://fadisrecipe.pk/",
+  "image": "https://fadisrecipe.pk/images/logo.png",
+  "logo": "https://fadisrecipe.pk/images/logo.png",
   "servesCuisine": ["Pizza","Burgers","Shawarma","Fast Food"],
   "priceRange": "Rs.250 - Rs.8800",
   "telephone": "+92-333-0764007",
@@ -636,7 +644,8 @@
       <div class="hero-visual" data-aos="fade-left" data-aos-duration="700" data-aos-delay="150">
         <div class="hero-visual-inner" id="heroTilt">
           <div class="glow-ring"></div>
-      <img src="images/pizza.png" class="hero-pizza" alt="Delicious Pizza">
+          <img src="images/pizza.png" class="hero-pizza" alt="Delicious Pizza">
+        </div>
       </div>
     </div>
 
@@ -1129,18 +1138,7 @@
         dg.deals.forEach(d=>{
           const card=document.createElement('div'); card.className='deal-card';
           const li=d.items.map(it=>`<li>${it}</li>`).join('');
-const waText = encodeURIComponent(
-`🍕 FADI'S RECIPE
-
-${dg.title} - Deal ${d.n}
-
-Items:
-• ${d.items.join("\n• ")}
-
-Price: Rs.${d.price.toLocaleString()}
-
-I'd like to place this order.`
-);
+          const waText=encodeURIComponent(`Hi! I'd like to order Deal ${d.n} (${dg.title}) — Rs.${d.price}`);
           const dealLabel=(dg.title+' Deal '+d.n).replace(/'/g,"\\'");
           const dIcon=DEAL_ICON[dg.title]||'ic-tag';
           const dealHot=(dg.title==='Pizza Deals' && d.n===8) ? ' <span class="hot-pill">🔥 Family Favorite</span>' : '';
@@ -1151,11 +1149,8 @@ I'd like to place this order.`
             <div class="deal-foot">
               <span class="deal-price">Rs.${d.price.toLocaleString()}</span>
               <span style="display:flex;gap:8px;align-items:center;">
-<button class="add-btn"
-onclick="addToCart('${dealLabel.replace(/'/g, '\\\'')}', ${d.price}, '${d.items.join('|').replace(/'/g, '\\\'')}')">
-+ Add
-</button>
-<a class="order-link" href="https://wa.me/923330764007?text=${waText}" target="_blank">Order →</a>
+                <button class="add-btn" onclick="addToCart('${dealLabel}', ${d.price})">+ Add</button>
+                <a class="order-link" href="https://wa.me/923330764007?text=${waText}" target="_blank">Order →</a>
               </span>
             </div>`;
           grid.appendChild(card);
@@ -1243,23 +1238,13 @@ onclick="addToCart('${dealLabel.replace(/'/g, '\\\'')}', ${d.price}, '${d.items.
   const cartTotalEl=document.getElementById('cartTotal');
   const cartSendBtn=document.getElementById('cartSendBtn');
 
-function addToCart(name, price, details = ""){
-  const existing = cart.find(i => i.name === name);
-
-  if(existing){
-    existing.qty++;
-  }else{
-    cart.push({
-      name,
-      price,
-      qty:1,
-      details
-    });
+  function addToCart(name, price){
+    const existing=cart.find(i=>i.name===name);
+    if(existing){ existing.qty++; } else { cart.push({name, price, qty:1}); }
+    renderCart();
+    openCart();
   }
 
-  renderCart();
-  openCart();
-}
   function changeQty(name, delta){
     const item=cart.find(i=>i.name===name);
     if(!item) return;
@@ -1292,21 +1277,9 @@ function addToCart(name, price, details = ""){
         </div>`).join('');
     }
 
-const lines = cart.map(i => {
-
-let txt = `${i.qty}× ${i.name}`;
-
-if(i.details){
-    txt += `%0A${encodeURIComponent(i.details).replace(/%0A/g,"%0A")}`;
-}
-
-txt += `%0APrice : Rs.${(i.qty*i.price).toLocaleString()}`;
-
-return txt;
-
-}).join("%0A%0A");
-    const msg=`Hi Fadi's Recipe! I'd like to order:%0A${lines}%0A%0ATotal: Rs.${totalPrice.toLocaleString()}`;
-    cartSendBtn.href=`https://wa.me/923330764007?text=${msg}`;
+    const lines=cart.map(i=>`${i.qty}x ${i.name} - Rs.${(i.qty*i.price).toLocaleString()}`).join('\n');
+    const msg=`Hi Fadi's Recipe! I'd like to order:\n${lines}\n\nTotal: Rs.${totalPrice.toLocaleString()}`;
+    cartSendBtn.href=`https://wa.me/923330764007?text=${encodeURIComponent(msg)}`;
   }
 
   function openCart(){ cartOverlay.classList.add('open'); cartDrawer.classList.add('open'); }
